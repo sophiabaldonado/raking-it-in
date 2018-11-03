@@ -22,6 +22,8 @@ function love.update(dt)
 	if player.dead then
 		paused = true
 	end
+
+	-- see where player is, and then manage tile actions, where tile sets player to ded
 end
 
 function love.draw()
