@@ -1,6 +1,11 @@
 local grid = {}
 
 function grid:load()
+	self.tiles = {
+		0, 0, 0,
+		0, 0, 0,
+		0, 0, 0
+	}
 	-- tiles = {
 	-- 	0, 0, 0, 0, 0,
 	-- 	0, 0, 0, 0, 0,
@@ -11,11 +16,7 @@ function grid:load()
 	self.tileSize = 100
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 
-	self.tiles = {
-		0, 0, 0,
-		0, 0, 0,
-		0, 0, 0
-	}
+
 end
 
 function grid:update(dt)
