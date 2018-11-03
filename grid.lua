@@ -9,7 +9,7 @@ function grid:load()
 	-- 	0, 0, 0, 0, 0,
  	-- }
 	self.tileSize = 100
-	self.width, self.height = math.sqrt(tiles), math.sqrt(tiles)
+	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 
 	self.tiles = {
 		0, 0, 0,
