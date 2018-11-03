@@ -42,7 +42,8 @@ function love.keypressed(key)
 	if not paused then
 		local prevPos = player.pos
 		player:keypressed(key)
-		if not player.pos == prevPos then
+		print("player.pos "..player.pos)
+		if player.pos ~= prevPos then
 			player:stepson(grid:getTile(player.pos))
  		end
 	end

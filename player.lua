@@ -6,7 +6,7 @@ function player:load()
 	self.pos = 1
 	self.pocketmoney = 0
 	self.dead = false
-	self.item = nil
+	self.item = 'rake'
 end
 
 function player:update(dt)
@@ -44,7 +44,9 @@ function player:stepson(tile)
 
 	if self.item == 'rake' then
 		tile.revealed = true
-		self.addmoney(tile.item)
+		if tile.item then
+			self:addmoney(tile.item.value)
+		end
 	end
 	--call in main update
 end
