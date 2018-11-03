@@ -8,6 +8,7 @@ function grid:load(size)
 
 	for i = 1, self.size do
 		local tile = Tile(false)
+		tile.pos = i
 		table.insert(self.tiles, tile)
 	end
 	self.tiles[love.math.random(1, size)]:setDeadly(true)
@@ -35,7 +36,8 @@ function grid:coords(w, h)
 end
 
 function grid:getTile(pos)
-	return self.tiles[pos]
+	print(pos.." "..self.tiles[pos].pos)
+	return self.tiles[pos].pos
 end
 
 
