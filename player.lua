@@ -42,9 +42,10 @@ function player:stepson(tile)
 
 	if tile.revealed then return end
 
-	if self.item = 'rake' then
+	if self.item == 'rake' then
 		tile.revealed = true
 		self.addmoney(tile.item)
+	end
 	--call in main update
 end
 
