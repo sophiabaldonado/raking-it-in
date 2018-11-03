@@ -1,19 +1,37 @@
 local grid = {}
 
 function grid:load()
-	--
+	-- tiles = {
+	-- 	0, 0, 0, 0, 0,
+	-- 	0, 0, 0, 0, 0,
+	-- 	0, 0, 0, 0, 0,
+	-- 	0, 0, 0, 0, 0,
+	-- 	0, 0, 0, 0, 0,
+ 	-- }
+	self.tileSize = 100
+
+	tiles = {
+		0, 0, 0,
+		0, 0, 0,
+		0, 0, 0
+	}
 end
 
-function grid: update(dt)
+function grid:update(dt)
 	--
 end
 
 function grid:draw()
-	for x = 1, 10 do
-		for y = 1, 10 do
-			love.graphics.rectangle("line", x * 50, y * 50, 50, 50)
+	for w = 1, #tiles / 2 do
+		for h = 1, #tiles / 2 do
+			x, y = self:coords(w, h)
+			love.graphics.rectangle("line", x - self.tileSize / 2, y - self.tileSize / 2, 10, 10)
 		end
 	end
+end
+
+function grid:coords(w, h)
+	return w * self.tileSize, h * self.tileSize
 end
 
 return grid
