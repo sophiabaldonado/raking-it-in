@@ -24,8 +24,8 @@ function grid:update(dt)
 end
 
 function grid:draw()
-	for w = 0, self.width do
-		for h = 0, self.height do
+	for w = 1, self.width do
+		for h = 1, self.height do
 			x, y = self:coords(w, h)
 			love.graphics.rectangle("line", x - self.tileSize / 2, y - self.tileSize / 2, 10, 10)
 		end
