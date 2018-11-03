@@ -15,3 +15,7 @@ function love.draw()
 	grid:draw()
 	player:draw({ x = 50, y = 50 })
 end
+
+function love.keypressed(key)
+	player:keypressed(key)
+end
