@@ -44,9 +44,10 @@ function love.draw()
 end
 
 function findY(pos)
-	if pos < grid.width then return 1 end
+	if pos <= grid.width then return 1 end
 	if pos > #grid.tiles - grid.width then return 0 end
 	return 2
+
 end
 
 function love.keypressed(key)
