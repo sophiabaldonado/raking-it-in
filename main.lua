@@ -9,11 +9,18 @@ function love.load()
 		[2] = (grid.tileSize / 2) * 3,
 		[0] = (grid.tileSize / 2) * 5
 	}
+
+	paused = false
 end
 
 function love.update(dt)
-	grid:update(dt)
-	player:update(dt)
+	if not paused then
+		grid:update(dt)
+		player:update(dt)
+	end
+	if player.dead then
+		paused = true
+	end
 end
 
 function love.draw()
@@ -21,6 +28,19 @@ function love.draw()
 	x = convert[math.fmod(player.pos, grid.width)]
 	y = convert[findY(player.pos)]
 	player:draw({ x = x, y = y })
+
+	if paused then
+		local text = 'opps no text :('
+		if player.dead then
+			text = 'yoer ded!!!'
+		end
+
+		love.graphics.rectangle('fill', 100, 100, 300, 300)
+		love.graphics.setColor(0, 100, 0, 255)
+		love.graphics.print(text, 150, 200)
+		love.graphics.setColor(255, 255, 255, 255)
+
+	end
 end
 
 function findY(pos)
@@ -30,5 +50,7 @@ function findY(pos)
 end
 
 function love.keypressed(key)
-	player:keypressed(key)
+	if not paused then
+		player:keypressed(key)
+	end
 end
