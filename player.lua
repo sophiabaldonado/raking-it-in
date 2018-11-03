@@ -11,16 +11,15 @@ function player:update(dt)
 end
 
 function player:keypressed(key)
-	self.pos = grid:moveplayer(key)
 
 		if key == 'up' then
-			return self.pos = self.pos - grid.width
-		if key == 'down' then
-			return self.pos = self.pos + grid.width
-		if key == 'left' then
-			return self.pos = self.pos - 1
-		if key == 'right' then
-			return self.pos = self.pos + 1
+			self.pos = self.pos - grid.width
+		elseif key == 'down' then
+			self.pos = self.pos + grid.width
+		elseif key == 'left' then
+			self.pos = self.pos - 1
+		elseif key == 'right' then
+			self.pos = self.pos + 1
 		end
 
 
