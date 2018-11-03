@@ -37,6 +37,4 @@ function grid:coords(w, h)
 end
 
 
-
-
 return grid
