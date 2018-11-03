@@ -22,16 +22,8 @@ function grid:draw()
 	local i = 1
 	for w = 1, self.width do
 		for h = 1, self.height do
-			x, y = self:coords(w, h)
-			if self.tiles[i].raked then
-				if self.tiles[i] == 2 then
-					love.graphics.circle('fill', x - self.tileSize / 2, y - self.tileSize / 2, 2)
-				else
-					love.graphics.circle('line', x - self.tileSize / 2, y - self.tileSize / 2, 2)
-				end
-			else
-				self.tiles[i]:draw(x, y, self.tileSize)
-			end
+			x, y = self:coords(w - 1, h - 1)
+			self.tiles[i]:draw(x, y, self.tileSize)
 			i = i + 1
 		end
 	end

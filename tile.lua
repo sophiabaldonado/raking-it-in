@@ -12,7 +12,7 @@ function Tile:draw(x, y, size)
 
 	if not self.revealed then
 		love.graphics.setColor(color)
-		love.graphics.rectangle('fill', x, y, size/2, size/2)
+		love.graphics.rectangle('fill', x, y, size, size)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
