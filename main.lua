@@ -1,5 +1,6 @@
 local player = require 'player'
 local grid = require 'grid'
+-- local hud = require 'hud'
 
 function love.load()
 	grid:load()
@@ -29,6 +30,19 @@ function love.draw()
 	y = convert[findY(player.pos)]
 	player:draw({ x = x, y = y })
 
+	drawHud()
+end
+
+function love.keypressed(key)
+	if key == 'escape' or key == 'p' then
+		paused = not paused
+	end
+	if not paused then
+		player:keypressed(key)
+	end
+end
+
+function drawHud()
 	if paused then
 		local text = 'opps no text :('
 		if player.dead then
@@ -39,7 +53,6 @@ function love.draw()
 		love.graphics.setColor(0, 100, 0, 255)
 		love.graphics.print(text, 150, 200)
 		love.graphics.setColor(255, 255, 255, 255)
-
 	end
 end
 
@@ -48,10 +61,4 @@ function findY(pos)
 	if pos > #grid.tiles - grid.width then return 0 end
 	return 2
 
-end
-
-function love.keypressed(key)
-	if not paused then
-		player:keypressed(key)
-	end
 end
