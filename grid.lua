@@ -23,8 +23,8 @@ function grid:update(dt)
 end
 
 function grid:draw()
-	for w = 1, #tiles / 2 do
-		for h = 1, #tiles / 2 do
+	for w = 1, #self.tiles / 2 do
+		for h = 1, #self.tiles / 2 do
 			x, y = self:coords(w, h)
 			love.graphics.rectangle("line", x - self.tileSize / 2, y - self.tileSize / 2, 10, 10)
 		end
