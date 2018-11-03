@@ -13,7 +13,12 @@ end
 
 function love.draw()
 	grid:draw()
-	player:draw({ x = (player.pos - 1) * grid.tileSize + grid.tileSize / 2, y = (player.pos - 1) * grid.tileSize + grid.tileSize / 2 })
+	player:draw({
+		x = (player.pos - 1) * grid.tileSize + grid.tileSize / 2,
+		y = (player.pos - 1) * grid.tileSize + grid.tileSize / 2
+
+	})
+
 end
 
 function love.keypressed(key)

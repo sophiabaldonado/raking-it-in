@@ -13,15 +13,22 @@ end
 function player:keypressed(key)
 
 		if key == 'up' then
-			self.pos = self.pos - grid.width
+			if self.pos > grid.width then
+				self.pos = self.pos - grid.width
+			end
 		elseif key == 'down' then
-			self.pos = self.pos + grid.width
-		elseif key == 'left' then
-			self.pos = self.pos - 1
+			if self.pos <= #grid.tiles - grid.width then
+				self.pos = self.pos + grid.width
+			end
 		elseif key == 'right' then
-			self.pos = self.pos + 1
+			if self.pos % grid.width ~= 0 then
+				self.pos = self.pos - 1
+			end
+		elseif key == 'left' then
+			if self.pos % grid.width ~= 1 then
+				self.pos = self.pos + 1
+			end
 		end
-
 
 end
 
