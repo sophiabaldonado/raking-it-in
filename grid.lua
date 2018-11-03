@@ -10,7 +10,8 @@ function grid:load(size)
 		local tile = Tile(false)
 		table.insert(self.tiles, tile)
 	end
-	self.tiles[love.math.random(1, size)]:setIsDeadly(true)
+	self.tiles[love.math.random(1, size)]:setDeadly(true)
+	self.tiles[love.math.random(1, size)]:setItem(true)
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 end
 

@@ -2,7 +2,6 @@ local class = require 'class'
 local Tile = class()
 
 function Tile:init()
-	-- self.isDeadly = false -- mine, trap, hole, etc
 	self.revealed = false
 end
 
@@ -16,8 +15,12 @@ function Tile:draw(x, y, size)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 
-function Tile:setIsDeadly(deadly)
+function Tile:setDeadly(deadly)
 	self.isDeadly = deadly
+end
+
+function Tile:setItem()
+
 end
 
 return Tile

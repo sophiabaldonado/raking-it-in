@@ -12,6 +12,7 @@ function love.load()
 	}
 
 	paused = false
+	newStep = false
 end
 
 function love.update(dt)
@@ -22,8 +23,6 @@ function love.update(dt)
 	if player.dead then
 		paused = true
 	end
-
-	player:stepson(grid:getTile(player.pos))
 end
 
 function love.draw()
@@ -39,8 +38,13 @@ function love.keypressed(key)
 	if key == 'escape' or key == 'p' then
 		paused = not paused
 	end
+
 	if not paused then
+		local prevPos = player.pos
 		player:keypressed(key)
+		if not player.pos == prevPos then
+			player:stepson(grid:getTile(player.pos))
+ 		end
 	end
 end
 
