@@ -3,7 +3,7 @@ local grid = require 'grid'
 -- local hud = require 'hud'
 
 function love.load()
-	grid:load()
+	grid:load(9)
 	player:load()
 	convert = {
 		[1] = (grid.tileSize / 2) * 1,
@@ -24,6 +24,8 @@ function love.update(dt)
 	end
 
 	-- see where player is, and then manage tile actions, where tile sets player to ded
+	player:stepson(grid:getTile(player.pos))
+
 end
 
 function love.draw()
