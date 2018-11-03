@@ -36,4 +36,17 @@ function grid:coords(w, h)
 	return w * self.tileSize, h * self.tileSize
 end
 
+function grid:moveplayer(pos, dir)
+	if dir == 'up' then
+		return pos - self.width
+	elseif dir == 'down' then
+		return pos + self.width
+	if dir == 'left' then
+		return pos
+	elseif dir == 'right' then
+		return
+	end
+
+end
+
 return grid
