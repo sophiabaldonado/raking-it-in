@@ -1,19 +1,17 @@
 local player = require 'player'
+local grid = require 'grid'
 
 function love.load()
-
-	-- grid.load()
+	grid:load()
+	player:load()
 end
 
 function love.update(dt)
-	--
+	grid:update(dt)
+	player:update(dt)
 end
 
 function love.draw()
-	for x = 1, 10 do
-		for y = 1, 10 do
-			love.graphics.rectangle("line", x * 50, y * 50, 50, 50)
-		end
-	end
-	player:draw()
+	grid:draw()
+	player:draw({ x = 50, y = 50 })
 end
