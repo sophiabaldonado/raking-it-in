@@ -32,9 +32,6 @@ function player:keypressed(key)
 				self.pos = self.pos + 1
 			end
 		end
-
-		print("player.pos: "..self.pos)
-		print("player.pocketmoney:"..self.pocketmoney)
 end
 
 function player:stepson(tile)

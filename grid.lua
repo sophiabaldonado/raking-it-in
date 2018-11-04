@@ -11,8 +11,8 @@ function grid:load(size)
 		tile.pos = i
 		table.insert(self.tiles, tile)
 	end
-	self.tiles[love.math.random(1, size - 1)]:setDeadly()
-	self.tiles[love.math.random(1, size)]:setRandomItem()
+	self.tiles[love.math.random(1, self.size - 1)]:setDeadly()
+	self.tiles[love.math.random(1, self.size)]:setRandomItem()
 
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 

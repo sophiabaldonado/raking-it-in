@@ -3,7 +3,7 @@ local grid = require 'grid'
 -- local hud = require 'hud'
 
 function love.load()
-	grid:load(9)
+	grid:load(25)
 	player:load()
 	convert = {
 		[1] = (grid.tileSize / 2) * 1,
@@ -13,7 +13,8 @@ function love.load()
 
 	paused = false
 	newStep = false
-	player:stepson(grid:getTile(player.pos))
+	currentTile = grid:getTile(player.pos)
+	player:stepson(currentTile)
 end
 
 function love.update(dt)
@@ -28,10 +29,7 @@ end
 
 function love.draw()
 	grid:draw()
-	x = convert[math.fmod(player.pos, grid.width)]
-	y = convert[findY(player.pos)]
-	player:draw({ x = x, y = y })
-
+	player:draw({ x = currentTile.x + grid.tileSize / 2, y = currentTile.y + grid.tileSize / 2 })
 	drawHud()
 end
 
@@ -43,9 +41,9 @@ function love.keypressed(key)
 	if not paused then
 		local prevPos = player.pos
 		player:keypressed(key)
-		print("player.pos "..player.pos)
 		if player.pos ~= prevPos then
-			player:stepson(grid:getTile(player.pos))
+			currentTile = grid:getTile(player.pos)
+			player:stepson(currentTile)
  		end
 	end
 end
@@ -62,11 +60,4 @@ function drawHud()
 		love.graphics.print(text, 150, 200)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
-end
-
-function findY(pos)
-	if pos <= grid.width then return 1 end
-	if pos > #grid.tiles - grid.width then return 0 end
-	return 2
-
 end
