@@ -3,35 +3,34 @@ local grid = require 'grid'
 local player = {}
 
 function player:load()
-	self.pos = 1
+	self.pos = #grid.tiles
 	self.pocketmoney = 0
 	self.dead = false
 	self.item = 'rake'
 end
 
 function player:update(dt)
-
+	--
 end
 
 function player:keypressed(key)
-
-		if key == 'up' then
-			if self.pos > grid.width then
-				self.pos = self.pos - grid.width
-			end
-		elseif key == 'down' then
-			if self.pos <= #grid.tiles - grid.width then
-				self.pos = self.pos + grid.width
-			end
-		elseif key == 'left' then
-			if self.pos % grid.width ~= 1 then
-				self.pos = self.pos - 1
-			end
-		elseif key == 'right' then
-			if self.pos % grid.width ~= 0 then
-				self.pos = self.pos + 1
-			end
+	if key == 'up' then
+		if self.pos > grid.width then
+			self.pos = self.pos - grid.width
 		end
+	elseif key == 'down' then
+		if self.pos <= #grid.tiles - grid.width then
+			self.pos = self.pos + grid.width
+		end
+	elseif key == 'left' then
+		if self.pos % grid.width ~= 1 then
+			self.pos = self.pos - 1
+		end
+	elseif key == 'right' then
+		if self.pos % grid.width ~= 0 then
+			self.pos = self.pos + 1
+		end
+	end
 end
 
 function player:stepson(tile)

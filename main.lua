@@ -1,15 +1,11 @@
 local player = require 'player'
 local grid = require 'grid'
--- local hud = require 'hud'
+local store = require 'store'
 
 function love.load()
-	grid:load(25)
+	grid:load(100)
 	player:load()
-	convert = {
-		[1] = (grid.tileSize / 2) * 1,
-		[2] = (grid.tileSize / 2) * 3,
-		[0] = (grid.tileSize / 2) * 5
-	}
+	store:load()
 
 	paused = false
 	newStep = false
@@ -31,9 +27,19 @@ function love.draw()
 	grid:draw()
 	player:draw({ x = currentTile.x + grid.tileSize / 2, y = currentTile.y + grid.tileSize / 2 })
 	drawHud()
+	if store.active then
+		store:draw()
+	end
 end
 
 function love.keypressed(key)
+	if store.active then
+		if key == 'escape' then
+			store.active = false
+		end
+
+	end
+
 	if key == 'escape' or key == 'p' then
 		paused = not paused
 	end
@@ -49,6 +55,8 @@ function love.keypressed(key)
 end
 
 function drawHud()
+	love.graphics.print('$'..player.pocketmoney, 25, 25)
+
 	if paused then
 		local text = 'opps no text :('
 		if player.dead then

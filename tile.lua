@@ -8,6 +8,7 @@ end
 function Tile:draw(size)
 	local color = { 255, 150, 0, 255 }
 	if self.isDeadly then color = { 255, 0, 0, 255 } end
+	if self.item then color = { 0, 100, 200, 255 } end
 	if self.revealed then color = { 0, 0, 0, 255 } end
 
 	love.graphics.setColor(color)
