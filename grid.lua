@@ -11,9 +11,19 @@ function grid:load(size)
 		tile.pos = i
 		table.insert(self.tiles, tile)
 	end
-	self.tiles[love.math.random(1, size)]:setDeadly(true)
-	self.tiles[love.math.random(1, size)]:setItem(true)
+	self.tiles[love.math.random(1, size)]:setDeadly()
+	self.tiles[love.math.random(1, size)]:setRandomItem()
+
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
+
+	local i = 1
+	for h = 1, self.width do
+		for w = 1, self.height do
+			x, y = self:coords(w - 1, h - 1)
+			self.tiles[i]:setCoords(x, y)
+			i = i + 1
+		end
+	end
 end
 
 function grid:update(dt)
@@ -21,13 +31,8 @@ function grid:update(dt)
 end
 
 function grid:draw()
-	local i = 1
-	for w = 1, self.width do
-		for h = 1, self.height do
-			x, y = self:coords(w - 1, h - 1)
-			self.tiles[i]:draw(x, y, self.tileSize)
-			i = i + 1
-		end
+	for _,tile in ipairs(self.tiles) do
+		tile:draw(self.tileSize)
 	end
 end
 
@@ -36,8 +41,7 @@ function grid:coords(w, h)
 end
 
 function grid:getTile(pos)
-	print(pos.." "..self.tiles[pos].pos)
-	return self.tiles[pos].pos
+	return self.tiles[pos]
 end
 
 
