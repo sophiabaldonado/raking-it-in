@@ -77,7 +77,8 @@ end
 
 function drawHud()
 	love.graphics.print('$'..player.pocketmoney, 25, 25)
-	love.graphics.print('$'..piggybank.total, piggybank.x + (piggybank.width / 2) + 10, piggybank.y - 5)
+	love.graphics.print('$'..piggybank.total, piggybank.x + piggybank.width + 10, piggybank.y + 20)
+	love.graphics.print(session.lives, 25, 45)
 
 	if lastItem then
 		local desc = 'You found a'..lastItem.name..' worth $'..lastItem.value..'!'
@@ -86,21 +87,30 @@ function drawHud()
 
 	if session.paused then
 		local text = 'pause (press Escape to resume)'
+		local image = assets.images.pause
 		if player.dead then
 			text = 'yoer ded!!!! (press R to restart)'
+			if session.lives <= 1 then
+				image = assets.images.gameover
+			else
+				image = assets.images.dead
+			end
 		elseif session.narrative then
 			text = session.narrative.text
+			image = assets.images.speechright
 		end
 
 		local x = (love.graphics.getWidth() / 2) - 150
-		love.graphics.rectangle('fill', x, 100, 300, 300)
-		love.graphics.setColor(0, 100, 0, 255)
-		love.graphics.print(text, x + 50, 200)
+		love.graphics.draw(image, x, 140)
+		
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.print(text, x + 40, 200)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
 
 function newSession()
+	session.lives = 4
 	piggybank:load()
 	setupBoard()
 end
@@ -110,6 +120,7 @@ function setupBoard()
 	player:load()
 	store:load()
 
+	session.lives = session.lives - 1
 	session.narrative = { char = 'player', type = 'start', text = 'Neat! This piggy bank alread has $'..piggybank.total..'!' }
 	session.paused = true
 	session.currentTile = grid:getTile(player.pos)
