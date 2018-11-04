@@ -12,21 +12,8 @@ function grid:load(size)
 		table.insert(self.tiles, tile)
 	end
 
-	local deadlies = {}
-	while #deadlies < 5 do
-		table.insert(deadlies, love.math.random(1, self.size - 1))
-	end
-	for _, tile in ipairs(deadlies) do
-		self.tiles[tile]:setDeadly()
-	end
-
-	local specials = {}
-	while #specials < 45 do
-		table.insert(specials, love.math.random(1, self.size - 1))
-	end
-	for _, tile in ipairs(specials) do
-		self.tiles[tile]:setRandomItem()
-	end
+	self:pickDeadlies()
+	self:pickSpecials()
 
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 	self.offset = (love.graphics.getWidth() / 2) - ((self.width / 2) * self.tileSize)
@@ -59,5 +46,32 @@ function grid:getTile(pos)
 	return self.tiles[pos]
 end
 
+function grid:pickDeadlies()
+	local deadlies = {}
+	while #deadlies < 5 do
+		table.insert(deadlies, love.math.random(1, self.size - 1))
+	end
+	for _, tile in ipairs(deadlies) do
+		self.tiles[tile]:setDeadly()
+	end
+end
+
+function grid:pickSpecials()
+	local highSpecials = {}
+	while #highSpecials < 10 do
+		table.insert(highSpecials, love.math.random(1, self.size - 1))
+	end
+	for _, tile in ipairs(highSpecials) do
+		self.tiles[tile]:setRandomHighValueItem()
+	end
+
+	local lowSpecials = {}
+	while #lowSpecials < 35 do
+		table.insert(lowSpecials, love.math.random(1, self.size - 1))
+	end
+	for _, tile in ipairs(lowSpecials) do
+		self.tiles[tile]:setRandomLowValueItem()
+	end
+end
 
 return grid

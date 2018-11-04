@@ -34,7 +34,9 @@ function player:keypressed(key)
 end
 
 function player:stepson(tile)
-	if tile.isDeadly then self.dead = true end
+	if tile.isDeadly then
+		self.dead = true
+	end
 
 	if tile.revealed then return end
 

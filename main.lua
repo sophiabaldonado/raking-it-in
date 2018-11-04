@@ -23,6 +23,9 @@ function love.update(dt)
 	if player.dead then
 		paused = true
 	end
+	if currentTile.item then
+		lastItem = currentTile.item
+	end
 end
 
 function love.draw()
@@ -43,6 +46,16 @@ function love.keypressed(key)
 			paused = not paused
 		end
 
+		if paused and player.dead then
+			if key == 'r' then
+				grid:load(100)
+				player:load()
+				currentTile = grid:getTile(player.pos)
+				player:stepson(currentTile)
+				paused = false
+			end
+		end
+
 		if not paused then
 			if player.pos == #grid.tiles then
 				if key == 'right' then
@@ -57,6 +70,7 @@ function love.keypressed(key)
 			local prevPos = player.pos
 			player:keypressed(key)
 			if player.pos ~= prevPos then
+				currentTile.item = nil
 				currentTile = grid:getTile(player.pos)
 				player:stepson(currentTile)
 	 		end
@@ -68,15 +82,21 @@ function drawHud()
 	love.graphics.print('$'..player.pocketmoney, 25, 25)
 	love.graphics.print('$'..piggybank.total, piggybank.x + (piggybank.width / 2) + 10, piggybank.y - 5)
 
+	if lastItem then
+		local desc = 'You found a '..lastItem.name..' worth $'..lastItem.value..'!'
+		love.graphics.print(desc, grid.tiles[1].x + grid.tileSize / 2, 550)
+	end
+
 	if paused then
-		local text = 'opps no text :('
+		local text = 'pause (press Escape to resume)'
 		if player.dead then
-			text = 'yoer ded!!!'
+			text = 'yoer ded!!!! (press R to restart)'
 		end
 
-		love.graphics.rectangle('fill', 100, 100, 300, 300)
+		local x = (love.graphics.getWidth() / 2) - 150
+		love.graphics.rectangle('fill', x, 100, 300, 300)
 		love.graphics.setColor(0, 100, 0, 255)
-		love.graphics.print(text, 150, 200)
+		love.graphics.print(text, x + 50, 200)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
