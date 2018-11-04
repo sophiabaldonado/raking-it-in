@@ -13,6 +13,7 @@ function love.load()
 
 	paused = false
 	newStep = false
+	player:stepson(grid:getTile(player.pos))
 end
 
 function love.update(dt)
