@@ -39,17 +39,20 @@ end
 
 function Tile:generateAdjectives()
 	self.adjectives = {
-		'',
-		'dirty ',
-		'old ',
-		'bloody ',
-		'stinky ',
-		'nice ',
-		'shiny ',
-		'ragged ',
-		'scraggly ',
-		'spooky ',
-		'rusty '
+		' ',
+		' dirty ',
+		'n old ',
+		' bloody ',
+		' stinky ',
+		' nice ',
+		' shiny ',
+		' ragged ',
+		' scraggly ',
+		' spooky ',
+		' rusty ',
+		'n odd ',
+		'n oily ',
+		'n ancient'
 	}
 end
 
@@ -69,18 +72,18 @@ function Tile:generateItems()
 	self.lowItems = {
 		{ name = 'watch', value = '2' },
 		{ name = 'gold', value = '1' },
-		{ name = 'silver', value = '.5' },
-		{ name = 'coins', value = '1.5' },
+		{ name = 'silver', value = '0.50' },
+		{ name = 'coin', value = '1.50' },
 		{ name = 'necklace', value = '2' },
 		{ name = 'locket', value = '4' },
-		{ name = 'frisbee', value = '.35' },
-		{ name = 'bottlecap', value = '.17' },
+		{ name = 'frisbee', value = '0.35' },
+		{ name = 'bottlecap', value = '0.17' },
 		{ name = 'monocle', value = '11' },
 		{ name = 'pin', value = '7' },
-		{ name = 'fork', value = '1.9' },
+		{ name = 'fork', value = '1.90' },
 		{ name = 'picture frame', value = '5' },
 		{ name = 'can', value = '.67' },
-		{ name = 'bottle', value = '.50' },
+		{ name = 'bottle', value = '0.50' },
 		{ name = 'boot', value = '13' },
 		{ name = 'shoe', value = '3' },
 		{ name = 'rock', value = '0' },

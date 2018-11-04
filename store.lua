@@ -17,4 +17,10 @@ function store:draw()
 	end
 end
 
+function store:keypressed(key)
+	if key == 'escape' or key == 'left' then
+		self.active = false
+	end
+end
+
 return store

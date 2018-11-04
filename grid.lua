@@ -59,7 +59,7 @@ end
 function grid:pickSpecials()
 	local highSpecials = {}
 	while #highSpecials < 10 do
-		table.insert(highSpecials, love.math.random(1, self.size - 1))
+		table.insert(highSpecials, love.math.random(1, self.size / 2))
 	end
 	for _, tile in ipairs(highSpecials) do
 		self.tiles[tile]:setRandomHighValueItem()
@@ -67,7 +67,7 @@ function grid:pickSpecials()
 
 	local lowSpecials = {}
 	while #lowSpecials < 35 do
-		table.insert(lowSpecials, love.math.random(1, self.size - 1))
+		table.insert(lowSpecials, love.math.random(self.size / 4, self.size - 1))
 	end
 	for _, tile in ipairs(lowSpecials) do
 		self.tiles[tile]:setRandomLowValueItem()

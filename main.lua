@@ -4,15 +4,11 @@ local store = require 'store'
 local piggybank = require 'bank'
 
 function love.load()
-	grid:load(100)
-	player:load()
-	store:load()
-	piggybank:load()
-
-	paused = false
-	newStep = false
-	currentTile = grid:getTile(player.pos)
-	player:stepson(currentTile)
+	setmetatable(_G, {
+		__index = require('cargo').init('/')
+	})
+	
+	newSession()
 end
 
 function love.update(dt)
@@ -38,9 +34,7 @@ end
 
 function love.keypressed(key)
 	if store.active then
-		if key == 'escape' then
-			store.active = false
-		end
+		store:keypressed(key)
 	else
 		if key == 'escape' or key == 'p' then
 			paused = not paused
@@ -48,11 +42,7 @@ function love.keypressed(key)
 
 		if paused and player.dead then
 			if key == 'r' then
-				grid:load(100)
-				player:load()
-				currentTile = grid:getTile(player.pos)
-				player:stepson(currentTile)
-				paused = false
+				setupBoard()
 			end
 		end
 
@@ -83,7 +73,7 @@ function drawHud()
 	love.graphics.print('$'..piggybank.total, piggybank.x + (piggybank.width / 2) + 10, piggybank.y - 5)
 
 	if lastItem then
-		local desc = 'You found a '..lastItem.name..' worth $'..lastItem.value..'!'
+		local desc = 'You found a'..lastItem.name..' worth $'..lastItem.value..'!'
 		love.graphics.print(desc, grid.tiles[1].x + grid.tileSize / 2, 550)
 	end
 
@@ -99,4 +89,20 @@ function drawHud()
 		love.graphics.print(text, x + 50, 200)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
+end
+
+function newSession()
+	setupBoard()
+	piggybank:load()
+end
+
+function setupBoard()
+	grid:load(100)
+	player:load()
+	store:load()
+
+	paused = false
+	newStep = false
+	currentTile = grid:getTile(player.pos)
+	player:stepson(currentTile)
 end
