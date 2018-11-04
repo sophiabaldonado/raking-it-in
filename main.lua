@@ -2,25 +2,29 @@ local player = require 'player'
 local grid = require 'grid'
 local store = require 'store'
 local piggybank = require 'bank'
+local timer = require 'timer'
+
+io.stdout:setvbuf('no')
 
 function love.load()
 	setmetatable(_G, {
 		__index = require('cargo').init('/')
 	})
 	
+	session = {}
 	newSession()
 end
 
 function love.update(dt)
-	if not paused then
+	if not session.paused then
 		grid:update(dt)
 		player:update(dt)
 	end
 	if player.dead then
-		paused = true
+		session.paused = true
 	end
-	if currentTile.item then
-		lastItem = currentTile.item
+	if session.currentTile.item then
+		lastItem = session.currentTile.item
 	end
 end
 
@@ -28,7 +32,7 @@ function love.draw()
 	grid:draw()
 	piggybank:draw()
 	store:draw()
-	player:draw({ x = currentTile.x + grid.tileSize / 2, y = currentTile.y + grid.tileSize / 2 })
+	player:draw({ x = session.currentTile.x + grid.tileSize / 2, y = session.currentTile.y + grid.tileSize / 2 })
 	drawHud()
 end
 
@@ -37,16 +41,19 @@ function love.keypressed(key)
 		store:keypressed(key)
 	else
 		if key == 'escape' or key == 'p' then
-			paused = not paused
+			session.paused = not session.paused
 		end
 
-		if paused and player.dead then
+		if session.paused and player.dead then
 			if key == 'r' then
 				setupBoard()
 			end
+		elseif session.paused and session.narrative then
+			session.narrative = nil
+			session.paused = false
 		end
 
-		if not paused then
+		if not session.paused then
 			if player.pos == #grid.tiles then
 				if key == 'right' then
 					store.active = true
@@ -60,9 +67,9 @@ function love.keypressed(key)
 			local prevPos = player.pos
 			player:keypressed(key)
 			if player.pos ~= prevPos then
-				currentTile.item = nil
-				currentTile = grid:getTile(player.pos)
-				player:stepson(currentTile)
+				session.currentTile.item = nil
+				session.currentTile = grid:getTile(player.pos)
+				player:stepson(session.currentTile)
 	 		end
 		end
 	end
@@ -77,10 +84,12 @@ function drawHud()
 		love.graphics.print(desc, grid.tiles[1].x + grid.tileSize / 2, 550)
 	end
 
-	if paused then
+	if session.paused then
 		local text = 'pause (press Escape to resume)'
 		if player.dead then
 			text = 'yoer ded!!!! (press R to restart)'
+		elseif session.narrative then
+			text = session.narrative.text
 		end
 
 		local x = (love.graphics.getWidth() / 2) - 150
@@ -92,8 +101,8 @@ function drawHud()
 end
 
 function newSession()
-	setupBoard()
 	piggybank:load()
+	setupBoard()
 end
 
 function setupBoard()
@@ -101,8 +110,8 @@ function setupBoard()
 	player:load()
 	store:load()
 
-	paused = false
-	newStep = false
-	currentTile = grid:getTile(player.pos)
-	player:stepson(currentTile)
+	session.narrative = { char = 'player', type = 'start', text = 'Neat! This piggy bank alread has $'..piggybank.total..'!' }
+	session.paused = true
+	session.currentTile = grid:getTile(player.pos)
+	player:stepson(session.currentTile)
 end
