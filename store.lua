@@ -5,9 +5,7 @@ function store:load()
 end
 
 function store:draw()
-	love.graphics.setColor(0, 200, 50, 255)
-	love.graphics.rectangle('fill', 660, 400, 75, 100)
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(assets.images.store, 660, 400)
 
 	if self.active then
 		local x = (love.graphics.getWidth() / 2) - 200

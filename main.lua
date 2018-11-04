@@ -10,7 +10,7 @@ function love.load()
 	setmetatable(_G, {
 		__index = require('cargo').init('/')
 	})
-	
+	love.graphics.setBackgroundColor( 137, 192, 123 )
 	session = {}
 	newSession()
 end
@@ -32,7 +32,7 @@ function love.draw()
 	grid:draw()
 	piggybank:draw()
 	store:draw()
-	player:draw({ x = session.currentTile.x + grid.tileSize / 2, y = session.currentTile.y + grid.tileSize / 2 })
+	player:draw({ x = session.currentTile.x, y = session.currentTile.y + grid.tileSize / 4 })
 	drawHud()
 end
 
@@ -55,12 +55,12 @@ function love.keypressed(key)
 
 		if not session.paused then
 			if player.pos == #grid.tiles then
-				if key == 'right' then
-					store.active = true
-				end
 				if key == 'down' then
 					piggybank:deposit(player.pocketmoney)
 					player.pocketmoney = 0
+				end
+				if key == 'right' then
+					store.active = true
 				end
 			end
 
@@ -87,12 +87,20 @@ function drawHud()
 
 	if session.paused then
 		local text = 'pause (press Escape to resume)'
+		local textY = 240
+		local xOffset = 250
+		local x = (love.graphics.getWidth() / 2) - xOffset
+		local textX = x + 80
+		local color = { 255, 255, 255, 255 }
 		local image = assets.images.pause
 		if player.dead then
-			text = 'yoer ded!!!! (press R to restart)'
+			textY = 280
+			color = { 182, 11, 11, 255 }
 			if session.lives <= 1 then
+				text = ''
 				image = assets.images.gameover
 			else
+				text = '(press R to restart)'
 				image = assets.images.dead
 			end
 		elseif session.narrative then
@@ -100,11 +108,10 @@ function drawHud()
 			image = assets.images.speechright
 		end
 
-		local x = (love.graphics.getWidth() / 2) - 150
 		love.graphics.draw(image, x, 140)
 		
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.print(text, x + 40, 200)
+		love.graphics.setColor(color)
+		love.graphics.print(text, textX, textY)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 end

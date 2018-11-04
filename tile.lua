@@ -3,21 +3,27 @@ local Tile = class()
 
 function Tile:init()
 	self.revealed = false
-	self:generateAdjectives()
-	self:generateItems()
+	self.adjectives = self:generateAdjectives()
+	self.lowItems, self.highItems = self:generateItems()
+	self.imageNum = love.math.random(3, 4)
+	-- self.imageNum = 1
+	self.imageBig = assets.images['tilebig'..self.imageNum]
+	self.imageMed = assets.images['tilemed'..self.imageNum]
+	self.imageSmall = assets.images['tilesmall'..self.imageNum]
 end
 
 function Tile:draw(size)
 	local color = { 255, 150, 0, 255 }
-	-- if self.item then color = { 0, 100, 200, 255 } end
-	-- if self.isDeadly then color = { 255, 0, 0, 255 } end
-	if self.revealed then color = { 0, 0, 0, 255 } end
+	if not self.revealed then
+		if self.imageSmall then love.graphics.draw(self.imageSmall, self.x - 5, self.y - 5) end
+		if self.imageMed then love.graphics.draw(self.imageMed, self.x - 5, self.y - 5) end
+		if self.imageBig then love.graphics.draw(self.imageBig, self.x - 6, self.y - 6) end
+	end
+end
 
-	love.graphics.setColor(color)
-	love.graphics.rectangle('fill', self.x, self.y, size, size)
-	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print(self.pos, self.x, self.y)
-	love.graphics.setColor(255, 255, 255, 255)
+function Tile:rake()
+	self.image = assets.images['tilemed'..self.imageNum]
+	self.image = assets.images['tilesmall'..self.imageNum]
 end
 
 function Tile:setDeadly()
@@ -38,7 +44,7 @@ function Tile:setCoords(x, y)
 end
 
 function Tile:generateAdjectives()
-	self.adjectives = {
+	return {
 		' ',
 		' dirty ',
 		'n old ',
@@ -69,7 +75,7 @@ function Tile:getItem(items)
 end
 
 function Tile:generateItems()
-	self.lowItems = {
+	return {
 		{ name = 'watch', value = '2' },
 		{ name = 'gold', value = '1' },
 		{ name = 'silver', value = '0.50' },
@@ -93,9 +99,8 @@ function Tile:generateItems()
 		{ name = 'baseball bat', value = '10' },
 		{ name = 'finger', value = '0' },
 		{ name = 'pen', value = '9' }
-	}
-
-	self.highItems = {
+	},
+	{
 		{ name = 'gameboy', value = '19' },
 		{ name = 'glasses', value = '22' },
 		{ name = 'pocket knife', value = '23' },
