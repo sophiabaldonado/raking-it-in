@@ -5,7 +5,7 @@ function store:load()
 end
 
 function store:draw()
-	love.graphics.draw(assets.images.store, 660, 400)
+	love.graphics.draw(assets.images.store, 660, 460)
 
 	if self.active then
 		local x = (love.graphics.getWidth() / 2) - 200

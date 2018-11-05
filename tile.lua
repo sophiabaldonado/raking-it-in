@@ -20,6 +20,11 @@ function Tile:update(dt)
 end
 
 function Tile:draw(size)
+	if self.pos == 100 then
+		love.graphics.setColor(232, 132, 58, 255)
+		love.graphics.rectangle('fill', self.x, self.y, size, size)
+		love.graphics.setColor(255, 255, 255, 255)
+	end
 	if not self.revealed then
 		if self.imageSmall then
 			love.graphics.setColor(255, 255, 255, self.alphaSmall.a)
@@ -46,7 +51,15 @@ function Tile:rake()
 end
 
 function Tile:setDeadly()
-	self.isDeadly = 'splosion'
+	self.isDeadly = true
+	local deadlyItems = {
+		{ name = ' landmine', value = 'your life' },
+		{ name = ' bear trap', value = 'your life' },
+		{ name = ' 30ft hole', value = 'your life' },
+		{ name = ' grenade', value = 'your life' },
+		{ name = ' poisonous snake', value = 'your life' }
+	}
+	self.item = self:pickRandom(deadlyItems)
 end
 
 function Tile:setRandomLowValueItem()
@@ -77,7 +90,7 @@ function Tile:generateAdjectives()
 		' rusty ',
 		'n odd ',
 		'n oily ',
-		'n ancient'
+		'n ancient '
 	}
 end
 

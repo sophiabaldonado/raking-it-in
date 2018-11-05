@@ -12,8 +12,8 @@ function grid:load(size)
 		table.insert(self.tiles, tile)
 	end
 
-	self:pickDeadlies()
 	self:pickSpecials()
+	self:pickDeadlies()
 
 	self.width, self.height = math.sqrt(#self.tiles), math.sqrt(#self.tiles)
 	self.offset = (love.graphics.getWidth() / 2) - ((self.width / 2) * self.tileSize)
@@ -41,7 +41,7 @@ function grid:draw()
 end
 
 function grid:coords(w, h)
-	return self.offset + (w * self.tileSize), h * self.tileSize
+	return self.offset + (w * self.tileSize), 50 + h * self.tileSize
 end
 
 function grid:getTile(pos)

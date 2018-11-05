@@ -41,9 +41,11 @@ function player:keypressed(key)
 	end
 end
 
-function player:stepson(tile)
+function player:stepson(session)
+	local tile = session.currentTile
 	if tile.isDeadly then
 		self.dead = true
+		session.lives = session.lives - 1
 	end
 
 	if tile.revealed then return end
@@ -52,7 +54,7 @@ function player:stepson(tile)
 		self.action = 'Raking...'
 		tile:rake()
 
-		if tile.item then
+		if tile.item and not tile.isDeadly then
 			self:addmoney(tile.item.value)
 		end
 	end
