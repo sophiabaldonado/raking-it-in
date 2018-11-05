@@ -3,15 +3,17 @@ local grid = require 'grid'
 local store = require 'store'
 local piggybank = require 'bank'
 
-io.stdout:setvbuf('no')
+-- io.stdout:setvbuf('no')
 
 function love.load()
 	setmetatable(_G, {
 		__index = require('cargo').init('/')
 	})
 	love.graphics.setBackgroundColor( 137, 192, 123 )
-	session = {}
-	newSession()
+	local font = assets.fonts.krona(15)
+	love.graphics.setFont(font)
+
+	startSession()
 end
 
 function love.update(dt)
@@ -27,15 +29,16 @@ end
 
 function love.draw()
 	grid:draw()
-	piggybank:draw()
+	session.piggybank:draw()
 	store:draw()
 	player:draw({ x = session.currentTile.x + player.width / 2, y = session.currentTile.y + player.width / 2 })
 	drawHud()
+	drawWin()
 end
 
 function love.keypressed(key)
 	if store.active then
-		store:keypressed(key)
+		store:keypressed(key, session)
 	else
 		if key == 'escape' or key == 'p' then
 			session.paused = not session.paused
@@ -43,7 +46,11 @@ function love.keypressed(key)
 
 		if session.paused and player.dead then
 			if key == 'r' then
-				setupBoard()
+				if session.lives <= 1 then
+					startSession()
+				else
+					setupBoard()
+				end
 			end
 		elseif session.paused and session.narrative then
 			session.narrative = nil
@@ -53,7 +60,7 @@ function love.keypressed(key)
 		if not session.paused then
 			if player.pos == #grid.tiles then
 				if key == 'down' then
-					piggybank:deposit(player.pocketmoney)
+					session.piggybank:deposit(player.pocketmoney)
 					player.pocketmoney = 0
 				end
 				if key == 'right' then
@@ -74,7 +81,7 @@ end
 
 function drawHud()
 	love.graphics.print('$'..player.pocketmoney, 25, 25)
-	love.graphics.print('$'..piggybank.total, piggybank.x + piggybank.width + 10, piggybank.y + 20)
+	love.graphics.print('$'..session.piggybank.total, session.piggybank.x + session.piggybank.width + 10, session.piggybank.y + 20)
 
 	for i = 1, session.lives do
 		love.graphics.draw(assets.images.heart, (40 * i) - 30, 50, 0, .75)
@@ -90,7 +97,7 @@ function drawHud()
 		local textY = 240
 		local xOffset = 250
 		local x = (love.graphics.getWidth() / 2) - xOffset
-		local textX = x + 80
+		local textX = x + 60
 		local color = { 255, 255, 255, 255 }
 		local image = assets.images.pause
 		if player.dead then
@@ -116,9 +123,24 @@ function drawHud()
 	end
 end
 
-function newSession()
+function drawWin()
+	if session.win then
+		local image = assets.images.pause
+		local xOffset = 250
+		local x = (love.graphics.getWidth() / 2) - xOffset
+		love.graphics.draw(image, x, 140)
+
+		love.graphics.setColor(156, 30, 230, 255)
+		love.graphics.print('YOU ESCAPED!', x + 180, 230)
+		love.graphics.setColor(255, 255, 255, 255)
+	end
+end
+
+function startSession()
+	session = {}
 	session.lives = 4
-	piggybank:load()
+	session.piggybank = piggybank
+	session.piggybank:load()
 	setupBoard()
 end
 
@@ -128,7 +150,7 @@ function setupBoard()
 	store:load()
 
 	session.lives = session.lives - 1
-	session.narrative = { char = 'player', type = 'start', text = 'Neat! This piggy bank alread has $'..piggybank.total..'!' }
+	session.narrative = { char = 'player', type = 'start', text = 'Neat! This piggy bank alread has $'..session.piggybank.total..'!' }
 	session.paused = true
 	session.currentTile = grid:getTile(player.pos)
 	player:stepson(session.currentTile)
