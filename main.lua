@@ -75,7 +75,10 @@ end
 function drawHud()
 	love.graphics.print('$'..player.pocketmoney, 25, 25)
 	love.graphics.print('$'..piggybank.total, piggybank.x + piggybank.width + 10, piggybank.y + 20)
-	love.graphics.print(session.lives, 25, 45)
+
+	for i = 1, session.lives do
+		love.graphics.draw(assets.images.heart, (40 * i) - 30, 50, 0, .75)
+	end
 
 	if lastItem then
 		local desc = 'You found a'..lastItem.name..' worth $'..lastItem.value..'!'
@@ -106,7 +109,7 @@ function drawHud()
 		end
 
 		love.graphics.draw(image, x, 140)
-		
+
 		love.graphics.setColor(color)
 		love.graphics.print(text, textX, textY)
 		love.graphics.setColor(255, 255, 255, 255)
