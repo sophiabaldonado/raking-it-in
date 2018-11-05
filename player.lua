@@ -8,12 +8,13 @@ function player:load()
 	self.dead = false
 	self.item = 'rake'
 	self.dir = math.pi
-	self.image = assets.images.player
+	local randonum = love.math.random(1, 6)
+	self.image = assets.images['player'..randonum]
 	self.width = self.image:getWidth()
 end
 
 function player:update(dt)
-	
+	--
 end
 
 function player:keypressed(key)
