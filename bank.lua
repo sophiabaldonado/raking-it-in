@@ -9,7 +9,7 @@ end
 
 function bank:draw()
 	love.graphics.draw(assets.images.piggybank, self.x, self.y, 0, .8)
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(1, 1, 1, 1)
 end
 
 function bank:deposit(value)

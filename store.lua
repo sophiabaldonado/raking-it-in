@@ -16,7 +16,7 @@ function store:draw()
 		love.graphics.draw(assets.images.bike, x + 220, 270, 0, .9)
 		love.graphics.print('press 2', x + 230, 350)
 		love.graphics.print('$500', x + 235, 335)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 	end
 end
 

@@ -10,7 +10,7 @@ function love.load()
 	setmetatable(_G, {
 		__index = require('cargo').init('/')
 	})
-	love.graphics.setBackgroundColor( 137, 192, 123 )
+	love.graphics.setBackgroundColor( .54, .75, .48 )
 	local font = assets.fonts.krona(15)
 	love.graphics.setFont(font)
 	startMenu = false
@@ -146,11 +146,11 @@ function drawHud()
 		local xOffset = 250
 		local x = (love.graphics.getWidth() / 2) - xOffset
 		local textX = x + 60
-		local color = { 255, 255, 255, 255 }
+		local color = { 1, 1, 1, 1 }
 		local image = assets.images.pause
 		if player.dead then
 			textY = 280
-			color = { 182, 11, 11, 255 }
+			color = { .72, .01, 0, 1 }
 			image = getKOScreen()
 			text = '(press R to restart)'
 			if session.lives == 0 then
@@ -166,7 +166,7 @@ function drawHud()
 
 		love.graphics.setColor(color)
 		love.graphics.print(text, textX, textY)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 	end
 end
 
@@ -177,10 +177,10 @@ function drawWin()
 		local x = (love.graphics.getWidth() / 2) - xOffset
 		love.graphics.draw(image, x, 140)
 
-		love.graphics.setColor(156, 30, 230, 255)
+		love.graphics.setColor(.61, .12, .90, 1)
 		love.graphics.print('YOU ESCAPED!', x + 180, 230)
 		love.graphics.print('(press R to restart)', x + 155, 250)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 	end
 end
 

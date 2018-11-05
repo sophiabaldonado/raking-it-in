@@ -12,6 +12,11 @@ end
 
 local la, lf, lg = love.audio, love.filesystem, love.graphics
 
+local function makeSound(path)
+  local info = lf.getInfo(path, 'file')
+  return la.newSource(path, (info and info.size and info.size < 5e5) and 'static' or 'stream')
+end
+
 local function makeFont(path)
   return function(size)
     return lg.newFont(path, size)
@@ -29,18 +34,20 @@ cargo.loaders = {
   dds = lg and lg.newImage,
   ogv = lg and lg.newVideo,
   glsl = lg and lg.newShader,
-  mp3 = la and la.newSource,
-  ogg = la and la.newSource,
-  wav = la and la.newSource,
+  mp3 = la and makeSound,
+  ogg = la and makeSound,
+  wav = la and makeSound,
   txt = lf and lf.read,
-  ttf = lg and makeFont
+  ttf = lg and makeFont,
+  otf = lg and makeFont,
+  fnt = lg and lg.newFont
 }
 
 cargo.processors = {}
 
 function cargo.init(config)
   if type(config) == 'string' then
-    config = {dir = config}
+    config = { dir = config }
   end
 
   local loaders = merge({}, cargo.loaders, config.loaders)
@@ -50,13 +57,15 @@ function cargo.init(config)
 
   local function halp(t, k)
     local path = (t._path .. '/' .. k):gsub('^/+', '')
-    if lf.isDirectory(path) then
+    local fileInfo = lf.getInfo(path, 'directory')
+    if fileInfo then
       rawset(t, k, init(path))
       return t[k]
     else
       for extension, loader in pairs(loaders) do
         local file = path .. '.' .. extension
-        if loader and lf.exists(file) then
+        local fileInfo = lf.getInfo(file)
+        if loader and fileInfo then
           local asset = loader(file)
           rawset(t, k, asset)
           for pattern, processor in pairs(processors) do
@@ -72,8 +81,21 @@ function cargo.init(config)
     return rawget(t, k)
   end
 
+  local function __call(t, recurse)
+    for i, f in ipairs(love.filesystem.getDirectoryItems(t._path)) do
+      local key = f:gsub('%..-$', '')
+      halp(t, key)
+
+      if recurse and love.filesystem.getInfo(t._path .. '/' .. f, 'directory') then
+        t[key](recurse)
+      end
+    end
+
+    return t
+  end
+
   init = function(path)
-    return setmetatable({_path = path}, {__index = halp})
+    return setmetatable({ _path = path }, { __index = halp, __call = __call })
   end
 
   return init(config.dir)
