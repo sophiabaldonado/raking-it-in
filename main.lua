@@ -103,7 +103,7 @@ function drawHud()
 		if player.dead then
 			textY = 280
 			color = { 182, 11, 11, 255 }
-			if session.lives <= 1 then
+			if session.lives < 1 then
 				text = ''
 				image = assets.images.gameover
 			else

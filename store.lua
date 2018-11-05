@@ -22,7 +22,7 @@ end
 
 function store:keypressed(key, session)
 	if key == '1' then
-		if session.piggybank.total < 100 then
+		if session.piggybank.total < 100 or session.lives == 3 then
 			return
 		end
 		session.lives = session.lives + 1
