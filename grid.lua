@@ -29,7 +29,9 @@ function grid:load(size)
 end
 
 function grid:update(dt)
-	--
+	for k,tile in ipairs(self.tiles) do
+		tile:update(dt)
+	end
 end
 
 function grid:draw()

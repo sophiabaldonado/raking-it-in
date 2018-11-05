@@ -2,7 +2,6 @@ local player = require 'player'
 local grid = require 'grid'
 local store = require 'store'
 local piggybank = require 'bank'
-local timer = require 'timer'
 
 io.stdout:setvbuf('no')
 
@@ -16,10 +15,8 @@ function love.load()
 end
 
 function love.update(dt)
-	if not session.paused then
-		grid:update(dt)
-		player:update(dt)
-	end
+	grid:update(dt)
+	player:update(dt)
 	if player.dead then
 		session.paused = true
 	end
@@ -32,7 +29,7 @@ function love.draw()
 	grid:draw()
 	piggybank:draw()
 	store:draw()
-	player:draw({ x = session.currentTile.x, y = session.currentTile.y + grid.tileSize / 4 })
+	player:draw({ x = session.currentTile.x + player.width / 2, y = session.currentTile.y + player.width / 2 })
 	drawHud()
 end
 

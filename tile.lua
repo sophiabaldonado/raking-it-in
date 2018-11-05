@@ -1,29 +1,48 @@
 local class = require 'class'
+local flux = require 'flux'
 local Tile = class()
 
 function Tile:init()
 	self.revealed = false
 	self.adjectives = self:generateAdjectives()
 	self.lowItems, self.highItems = self:generateItems()
-	self.imageNum = love.math.random(3, 4)
-	-- self.imageNum = 1
+	self.imageNum = love.math.random(1, 4)
 	self.imageBig = assets.images['tilebig'..self.imageNum]
 	self.imageMed = assets.images['tilemed'..self.imageNum]
 	self.imageSmall = assets.images['tilesmall'..self.imageNum]
+	self.alphaBig = { a = 255 }
+	self.alphaMed = { a = 255 }
+	self.alphaSmall = { a = 255 }
+end
+
+function Tile:update(dt)
+	flux.update(dt)
 end
 
 function Tile:draw(size)
-	local color = { 255, 150, 0, 255 }
 	if not self.revealed then
-		if self.imageSmall then love.graphics.draw(self.imageSmall, self.x - 5, self.y - 5) end
-		if self.imageMed then love.graphics.draw(self.imageMed, self.x - 5, self.y - 5) end
-		if self.imageBig then love.graphics.draw(self.imageBig, self.x - 6, self.y - 6) end
+		if self.imageSmall then
+			love.graphics.setColor(255, 255, 255, self.alphaSmall.a)
+			love.graphics.draw(self.imageSmall, self.x, self.y)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+		if self.imageMed then
+			love.graphics.setColor(255, 255, 255, self.alphaMed.a)
+			love.graphics.draw(self.imageMed, self.x, self.y)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+		if self.imageBig then
+			love.graphics.setColor(255, 255, 255, self.alphaBig.a)
+			love.graphics.draw(self.imageBig, self.x, self.y)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
 	end
 end
 
 function Tile:rake()
-	self.image = assets.images['tilemed'..self.imageNum]
-	self.image = assets.images['tilesmall'..self.imageNum]
+	flux.to(self.alphaBig, 10, { a = 0 }):ease("linear"):delay(14)
+	flux.to(self.alphaMed, 15, { a = 0 }):ease("linear"):delay(17)
+	flux.to(self.alphaSmall, 18, { a = 0 }):ease("linear"):delay(26)
 end
 
 function Tile:setDeadly()
