@@ -14,12 +14,24 @@ function love.load()
 		__index = require(cargo).init('/'),
 	})
 	love.window.setTitle('Raking It In')
-	local bgcolor = newVersion and {.54, .75, .48 } or { 137, 192, 123 }
+	local bgcolor = newVersion and { .54, .75, .48 } or { 137, 192, 123 }
 	love.graphics.setBackgroundColor(bgcolor)
 	local font = assets.fonts.krona(15)
 	love.graphics.setFont(font)
 	startMenu = false
-
+	sound = {
+		deposit = love.audio.newSource('assets/audio/deposit.ogg', 'static'),
+		coin = {
+			[1] = love.audio.newSource('assets/audio/coin1.ogg', 'static'),
+			[2] = love.audio.newSource('assets/audio/coin2.ogg', 'static'),
+			[3] = love.audio.newSource('assets/audio/coin3.ogg', 'static')
+		},
+		-- dead = love.audio.newSource('static'),
+		storeOpen = love.audio.newSource('assets/audio/storeOpen.ogg', 'static'),
+		storeClose = love.audio.newSource('assets/audio/storeClose.ogg', 'static'),
+		granny = love.audio.newSource('assets/audio/cackle.ogg', 'static'),
+		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static')
+	}
 	startSession()
 end
 
@@ -28,8 +40,16 @@ function love.update(dt)
 	if session.grandma > 0 then
 		timeHer()
 	end
-	if session.currentTile.item then
-		lastItem = session.currentTile.item
+	local tile = session.currentTile
+	if tile.item then
+		lastItem = tile.item
+		session.sound.coin[love.math.random(1, 3)]:play()
+		if tile.triggersGranny > 80 and not tile.isDeadly then
+			session.grandmaNum = love.math.random(2, 5)
+			session.grandmaWords = getRandomGrannySpeech()
+			session.grandma = 180
+		end
+		tile.item = nil
 	end
 	grid:update(dt)
 	player:update(dt)
@@ -89,9 +109,11 @@ function love.keypressed(key)
 					if key == 'down' then
 						session.piggybank:deposit(player.pocketmoney)
 						player.pocketmoney = 0
+						session.sound.deposit:play()
 					end
 					if key == 'right' then
 						store.active = true
+						session.sound.storeOpen:play()
 					end
 				end
 
@@ -125,11 +147,25 @@ function drawGranny()
 			textBot = "Good luck..."
 			love.graphics.print(textTop, 380, 180)
 			love.graphics.print(textBot, 380, 220)
-		else
-
+		elseif session.grandmaNum < 6 then
+			textMid = session.grandmaWords
 		end
 		love.graphics.print(textMid, 380, 200)
 	end
+end
+
+function getRandomGrannySpeech()
+	local words = {
+		"I'm watching you..",
+		"These old bones aren't what they were",
+		"Be a doll, and bring that in for me",
+		"What a clever child..",
+		"Curiosity killed the cat!",
+		"What did you find..",
+		"Nobody likes a snoop",
+		"I've been looking everywhere for that"
+	}
+	return words[love.math.random(1, #words)]
 end
 
 function drawHud()
@@ -193,8 +229,10 @@ end
 
 function startSession()
 	session = {}
+	session.sound = sound
 	session.grandmaNum = 1
-	session.grandma = 400
+	session.grandma = 350
+	session.grandmaWords = getRandomGrannySpeech()
 	session.lives = 3
 	session.piggybank = piggybank
 	session.piggybank:load()

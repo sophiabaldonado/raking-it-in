@@ -46,6 +46,8 @@ function player:stepson(session)
 	if tile.isDeadly then
 		self.dead = true
 		session.lives = session.lives - 1
+		local sound = session.lives == 0 and session.sound.gameover or session.sound.granny
+		sound:play()
 	end
 
 	if tile.revealed then return end

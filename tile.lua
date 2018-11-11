@@ -9,6 +9,7 @@ function Tile:init()
 	self.adjectives = self:generateAdjectives()
 	self.lowItems, self.highItems = self:generateItems()
 	self.imageNum = love.math.random(1, 4)
+	self.triggersGranny = love.math.random(1, 100)
 	self.imageBig = assets.images['tilebig'..self.imageNum]
 	self.imageMed = assets.images['tilemed'..self.imageNum]
 	self.imageSmall = assets.images['tilesmall'..self.imageNum]
