@@ -29,6 +29,7 @@ function store:keypressed(key, session)
 			return
 		end
 		session.lives = session.lives + 1
+		session.sound.heart:play()
 		session.piggybank.total = session.piggybank.total - 100
 	elseif key == '2' then
 		if session.piggybank.total < 500 then

@@ -29,6 +29,7 @@ function love.load()
 		-- dead = love.audio.newSource('static'),
 		storeOpen = love.audio.newSource('assets/audio/storeOpen.ogg', 'static'),
 		storeClose = love.audio.newSource('assets/audio/storeClose.ogg', 'static'),
+		heart = love.audio.newSource('assets/audio/heart.ogg', 'static'),
 		granny = love.audio.newSource('assets/audio/cackle.ogg', 'static'),
 		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static')
 	}
