@@ -1,16 +1,21 @@
-local player = require 'player'
-local grid = require 'grid'
-local store = require 'store'
 local piggybank = require 'bank'
+local player = require 'player'
+local store = require 'store'
+local grid = require 'grid'
 local flux = require 'flux'
+local major, minor = love.getVersion()
+local newVersion = minor > 10
+local cargo = newVersion and 'cargo11' or 'cargo10'
 
--- io.stdout:setvbuf('no')
+io.stdout:setvbuf('no')
 
 function love.load()
 	setmetatable(_G, {
-		__index = require('cargo').init('/')
+		__index = require(cargo).init('/'),
 	})
-	love.graphics.setBackgroundColor( .54, .75, .48 )
+	love.window.setTitle('Raking It In')
+	local bgcolor = newVersion and {.54, .75, .48 } or { 137, 192, 123 }
+	love.graphics.setBackgroundColor(bgcolor)
 	local font = assets.fonts.krona(15)
 	love.graphics.setFont(font)
 	startMenu = false
@@ -146,11 +151,11 @@ function drawHud()
 		local xOffset = 250
 		local x = (love.graphics.getWidth() / 2) - xOffset
 		local textX = x + 60
-		local color = { 1, 1, 1, 1 }
+		local color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
 		local image = assets.images.pause
 		if player.dead then
 			textY = 280
-			color = { .72, .01, 0, 1 }
+			color = newVersion and { .72, .01, 0, 1 } or { 182, 11, 11, 255 }
 			image = getKOScreen()
 			text = '(press R to restart)'
 			if session.lives == 0 then
@@ -166,7 +171,8 @@ function drawHud()
 
 		love.graphics.setColor(color)
 		love.graphics.print(text, textX, textY)
-		love.graphics.setColor(1, 1, 1, 1)
+		color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
+		love.graphics.setColor(color)
 	end
 end
 
@@ -176,11 +182,12 @@ function drawWin()
 		local xOffset = 250
 		local x = (love.graphics.getWidth() / 2) - xOffset
 		love.graphics.draw(image, x, 140)
-
-		love.graphics.setColor(.61, .12, .90, 1)
+		local color = newVersion and { .61, .12, .90, 1 } or { 156, 30, 230, 255 }
+		love.graphics.setColor(color)
 		love.graphics.print('YOU ESCAPED!', x + 180, 230)
 		love.graphics.print('(press R to restart)', x + 155, 250)
-		love.graphics.setColor(1, 1, 1, 1)
+		color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
+		love.graphics.setColor(color)
 	end
 end
 

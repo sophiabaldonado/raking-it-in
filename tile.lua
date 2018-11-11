@@ -1,3 +1,5 @@
+local major, minor = love.getVersion()
+local newVersion = minor > 10
 local class = require 'class'
 local flux = require 'flux'
 local Tile = class()
@@ -10,9 +12,9 @@ function Tile:init()
 	self.imageBig = assets.images['tilebig'..self.imageNum]
 	self.imageMed = assets.images['tilemed'..self.imageNum]
 	self.imageSmall = assets.images['tilesmall'..self.imageNum]
-	self.alphaBig = { a = 1 }
-	self.alphaMed = { a = 1 }
-	self.alphaSmall = { a = 1 }
+	self.alphaBig = newVersion and { a = 1 } or { a = 255 }
+	self.alphaMed = newVersion and { a = 1 } or { a = 255 }
+	self.alphaSmall = newVersion and { a = 1 } or { a = 255 }
 end
 
 function Tile:update(dt)
@@ -21,26 +23,33 @@ end
 
 function Tile:draw(size)
 	if self.pos == 100 then
-		love.graphics.setColor(.91, .52, .23, 1)
+		local color = newVersion and { .91, .52, .23, 1 } or { 232, 132, 58, 255 }
+		love.graphics.setColor(color)
 		love.graphics.rectangle('fill', self.x, self.y, size, size)
-		love.graphics.setColor(1, 1, 1, 1)
+		color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
+		love.graphics.setColor(color)
 	end
 	if not self.revealed then
-		if self.imageSmall then
-			love.graphics.setColor(1, 1, 1, self.alphaSmall.a)
-			love.graphics.draw(self.imageSmall, self.x, self.y)
-			love.graphics.setColor(1, 1, 1, 1)
-		end
-		if self.imageMed then
-			love.graphics.setColor(1, 1, 1, self.alphaMed.a)
-			love.graphics.draw(self.imageMed, self.x, self.y)
-			love.graphics.setColor(1, 1, 1, 1)
-		end
-		if self.imageBig then
-			love.graphics.setColor(1, 1, 1, self.alphaBig.a)
-			love.graphics.draw(self.imageBig, self.x, self.y)
-			love.graphics.setColor(1, 1, 1, 1)
-		end
+		local color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
+		local fullAlpha = newVersion and 1 or 255
+
+		color[4] = self.alphaSmall.a
+		love.graphics.setColor(color)
+		love.graphics.draw(self.imageSmall, self.x, self.y)
+		color[4] = fullAlpha
+		love.graphics.setColor(color)
+
+		color[4] = self.alphaMed.a
+		love.graphics.setColor(color)
+		love.graphics.draw(self.imageMed, self.x, self.y)
+		color[4] = fullAlpha
+		love.graphics.setColor(color)
+
+		color[4] = self.alphaBig.a
+		love.graphics.setColor(color)
+		love.graphics.draw(self.imageBig, self.x, self.y)
+		color[4] = fullAlpha
+		love.graphics.setColor(color)
 	end
 end
 

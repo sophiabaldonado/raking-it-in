@@ -1,3 +1,5 @@
+local major, minor = love.getVersion()
+local newVersion = minor > 10
 local bank = {}
 
 function bank:load()
@@ -9,7 +11,8 @@ end
 
 function bank:draw()
 	love.graphics.draw(assets.images.piggybank, self.x, self.y, 0, .8)
-	love.graphics.setColor(1, 1, 1, 1)
+	local color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
+	love.graphics.setColor(color)
 end
 
 function bank:deposit(value)
