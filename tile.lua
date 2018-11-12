@@ -56,8 +56,8 @@ end
 
 function Tile:rake()
 	flux.to(self.alphaBig, 10, { a = 0 }):ease("linear"):delay(14)
-	flux.to(self.alphaMed, 15, { a = 0 }):ease("linear"):delay(17)
-	flux.to(self.alphaSmall, 18, { a = 0 }):ease("linear"):delay(26)
+	if love.math.random(1, 100) > 20 then flux.to(self.alphaMed, 15, { a = 0 }):ease("linear"):delay(17) end
+	if love.math.random(1, 100) > 50 then flux.to(self.alphaSmall, 18, { a = 0 }):ease("linear"):delay(26) end
 end
 
 function Tile:setDeadly()
