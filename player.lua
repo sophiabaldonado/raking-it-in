@@ -8,9 +8,16 @@ function player:load()
 	self.dead = false
 	self.item = 'rake'
 	self.dir = math.pi
-	local randonum = love.math.random(1, 6)
-	self.image = assets.images['player'..randonum]
+	self.image = assets.images['player'..love.math.random(1, 6)]
 	self.width = self.image:getWidth()
+	self.step = {
+		[1] = love.audio.newSource('assets/audio/step1.ogg', 'static'),
+		[2] = love.audio.newSource('assets/audio/step2.ogg', 'static'),
+		[3] = love.audio.newSource('assets/audio/step3.ogg', 'static'),
+		[4] = love.audio.newSource('assets/audio/step4.ogg', 'static'),
+		[5] = love.audio.newSource('assets/audio/step5.ogg', 'static'),
+		[6] = love.audio.newSource('assets/audio/step6.ogg', 'static')
+	}
 end
 
 function player:update(dt)
@@ -22,21 +29,25 @@ function player:keypressed(key)
 		if self.pos > grid.width then
 			self.dir = math.pi
 			self.pos = self.pos - grid.width
+			self.step[love.math.random(1, 6)]:play()
 		end
 	elseif key == 'down' then
 		if self.pos <= #grid.tiles - grid.width then
 			self.dir = 0
 			self.pos = self.pos + grid.width
+			self.step[love.math.random(1, 6)]:play()
 		end
 	elseif key == 'left' then
 		if self.pos % grid.width ~= 1 then
 			self.dir = math.pi / 2
 			self.pos = self.pos - 1
+			self.step[love.math.random(1, 6)]:play()
 		end
 	elseif key == 'right' then
 		if self.pos % grid.width ~= 0 then
 			self.dir = math.pi + math.pi / 2
 			self.pos = self.pos + 1
+			self.step[love.math.random(1, 6)]:play()
 		end
 	end
 end
