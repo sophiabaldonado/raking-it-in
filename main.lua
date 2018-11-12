@@ -22,13 +22,16 @@ function love.load()
 	startMenu = false
 	sound = loadSounds()
 	sound.win:setVolume(0.8)
+	timing = false
 	startSession()
 end
 
 function love.update(dt)
 	flux.update(dt)
-	if session.grandma > 0 then
-		timeHer()
+	if session.grandma then
+		if not timing then
+			timeHer()
+		end
 	end
 	local tile = session.currentTile
 	if tile.item then
@@ -37,7 +40,9 @@ function love.update(dt)
 		if tile.triggersGranny > 85 and not tile.isDeadly then
 			session.grandmaNum = love.math.random(2, 5)
 			session.grandmaWords = getRandomGrannySpeech()
-			session.grandma = 180
+			session.grandmaPos = 400
+			session.grandmaTimer = 100
+			session.grandma = true
 		end
 		tile.item = nil
 	end
@@ -49,7 +54,15 @@ function love.update(dt)
 end
 
 function timeHer()
-	flux.to(session, 0, { grandma = 0, grandmaNum = 0 }):delay(session.grandma)
+	timing = true
+	flux.to(session, 40, { grandmaPos = 100 })
+		:after(session, session.grandmaTimer, { grandmaPos = 100 })
+		:after(session, 50, { grandmaPos = 600 })
+		:oncomplete(function()
+			session.grandma = false
+			session.grandmaNum = 0
+			timing = false
+		end)
 end
 
 function love.draw()
@@ -76,7 +89,7 @@ function love.keypressed(key)
 			startMenu = false
 		end
 	else
-		if session.grandma > 0 then return end
+		if session.grandma then return end
 
 		if store.active then
 			store:keypressed(key, session)
@@ -124,10 +137,10 @@ function drawStartMenu()
 end
 
 function drawGranny()
-	if session.grandma > 0 then
+	if session.grandma then
 		local img = 'grandma'..session.grandmaNum
 		local x = session.grandmaNum == 6 and -80 or -20
-		love.graphics.draw(assets.images[img], x, 100)
+		love.graphics.draw(assets.images[img], x, session.grandmaPos)
 		local textTop, textMid, textTopBot = '', '', ''
 
 		if session.grandmaNum < 6 then love.graphics.draw(assets.images.speechleft, 300, 100) end
@@ -220,10 +233,13 @@ end
 
 function startSession()
 	session = {}
+	timing = false
 	session.sound = sound
 	session.grandmaNum = 1
-	session.grandma = 350
+	session.grandmaTimer = 250
+	session.grandmaPos = 400
 	session.grandmaWords = getRandomGrannySpeech()
+	session.grandma = true
 	session.lives = 3
 	session.piggybank = piggybank
 	session.piggybank:load()
