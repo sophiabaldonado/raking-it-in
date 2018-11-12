@@ -4,6 +4,7 @@ local store = {}
 
 function store:load()
 	self.active = false
+	self.prices = { bike = 500, heart = 100 }
 end
 
 function store:draw()
@@ -25,18 +26,19 @@ end
 
 function store:keypressed(key, session)
 	if key == '1' then
-		if session.piggybank.total < 100 or session.lives == 3 then
+		if session.piggybank.total < self.prices.heart or session.lives == 3 then
 			return
 		end
 		session.lives = session.lives + 1
 		session.sound.heart:play()
-		session.piggybank.total = session.piggybank.total - 100
+		session.piggybank.total = session.piggybank.total - self.prices.heart
 	elseif key == '2' then
-		if session.piggybank.total < 500 then
+		if session.piggybank.total < self.prices.bike then
 			return
 		end
 		session.win = true
-		session.piggybank.total = session.piggybank.total - 500
+		session.sound.win:play()
+		session.piggybank.total = session.piggybank.total - self.prices.bike
 	elseif key == 'escape' or key == 'left' then
 		session.sound.storeClose:play()
 		self.active = false
