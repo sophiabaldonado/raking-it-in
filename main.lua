@@ -4,7 +4,8 @@ local store = require 'store'
 local grid = require 'grid'
 local flux = require 'flux'
 local major, minor = love.getVersion()
-local newVersion = minor > 10
+local newVersion = minor ~= 10
+print(minor, newVersion)
 local cargo = newVersion and 'cargo11' or 'cargo10'
 
 io.stdout:setvbuf('no')

@@ -1,5 +1,5 @@
 local major, minor = love.getVersion()
-local newVersion = minor > 10
+local newVersion = minor ~= 10
 local class = require 'class'
 local flux = require 'flux'
 local Tile = class()

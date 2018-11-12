@@ -1,5 +1,5 @@
 local major, minor = love.getVersion()
-local newVersion = minor > 10
+local newVersion = minor ~= 10
 local store = {}
 
 function store:load()
