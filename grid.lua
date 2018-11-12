@@ -50,7 +50,7 @@ end
 
 function grid:pickDeadlies()
 	local deadlies = {}
-	while #deadlies < 5 do
+	while #deadlies < 4 do
 		table.insert(deadlies, love.math.random(1, self.size - 1))
 	end
 	for _, tile in ipairs(deadlies) do

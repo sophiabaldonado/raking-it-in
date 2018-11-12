@@ -159,7 +159,7 @@ function getRandomGrannySpeech()
 	local words = {
 		"I'm watching you..",
 		"These old bones aren't what they were",
-		"Be a doll, and bring that in for me",
+		"Be a doll and bring that in for me",
 		"What a clever child..",
 		"Curiosity killed the cat!",
 		"What did you find..",
