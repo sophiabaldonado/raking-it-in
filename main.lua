@@ -16,7 +16,8 @@ function love.load()
 	love.window.setTitle('Raking It In')
 	local bgcolor = newVersion and { .54, .75, .48 } or { 137, 192, 123 }
 	love.graphics.setBackgroundColor(bgcolor)
-	local font = assets.fonts.krona(15)
+	bigfont = assets.fonts.krona(25)
+	font = assets.fonts.krona(15)
 	love.graphics.setFont(font)
 	startMenu = false
 	sound = {
@@ -162,7 +163,6 @@ end
 function getRandomGrannySpeech()
 	local words = {
 		"I'm watching you..",
-		"These old bones aren't what they were",
 		"Be a doll, and bring that in for me",
 		"What a clever child..",
 		"Curiosity killed the cat!",
@@ -174,8 +174,10 @@ function getRandomGrannySpeech()
 end
 
 function drawHud()
-	love.graphics.print('$'..player.pocketmoney, 40, 60)
-	love.graphics.print('$'..session.piggybank.total, session.piggybank.x + session.piggybank.width, session.piggybank.y + 20)
+	love.graphics.setFont(bigfont)
+	love.graphics.print('$'..string.format("%.2f", player.pocketmoney), 10, 60)
+	love.graphics.setFont(font)
+	love.graphics.print('$'..string.format("%.2f",session.piggybank.total), session.piggybank.x + session.piggybank.width, session.piggybank.y + 20)
 
 	for i = 1, session.lives do
 		love.graphics.draw(assets.images.heart, (40 * i) - 30, 10, 0, .75)

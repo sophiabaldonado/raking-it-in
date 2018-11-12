@@ -63,10 +63,11 @@ end
 function Tile:setDeadly()
 	self.isDeadly = true
 	local deadlyItems = {
-		{ name = ' landmine', value = 'your life' },
+		{ name = ' land mine', value = 'your life' },
 		{ name = ' bear trap', value = 'your life' },
 		{ name = ' 30ft hole', value = 'your life' },
 		{ name = ' grenade', value = 'your life' },
+		{ name = ' fire', value = 'your life' },
 		{ name = ' poisonous snake', value = 'your life' }
 	}
 	self.item = self:pickRandom(deadlyItems)
@@ -100,6 +101,8 @@ function Tile:generateAdjectives()
 		' rusty ',
 		'n odd ',
 		'n oily ',
+		' kooky ',
+		 ' broken ',
 		'n ancient '
 	}
 end
