@@ -24,15 +24,19 @@ function love.load()
 		coin = {
 			[1] = love.audio.newSource('assets/audio/coin1.ogg', 'static'),
 			[2] = love.audio.newSource('assets/audio/coin2.ogg', 'static'),
-			[3] = love.audio.newSource('assets/audio/coin3.ogg', 'static')
+			[3] = love.audio.newSource('assets/audio/coin3.ogg', 'static'),
+			[4] = love.audio.newSource('assets/audio/coin4.ogg', 'static'),
+			[5] = love.audio.newSource('assets/audio/coin5.ogg', 'static')
 		},
 		-- dead = love.audio.newSource('static'),
 		storeOpen = love.audio.newSource('assets/audio/storeOpen.ogg', 'static'),
 		storeClose = love.audio.newSource('assets/audio/storeClose.ogg', 'static'),
 		heart = love.audio.newSource('assets/audio/heart.ogg', 'static'),
 		granny = love.audio.newSource('assets/audio/cackle.ogg', 'static'),
-		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static')
+		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static'),
+		win = love.audio.newSource('assets/audio/win.ogg', 'static')
 	}
+	sound.win:setVolume(0.8)
 	startSession()
 end
 
@@ -44,8 +48,8 @@ function love.update(dt)
 	local tile = session.currentTile
 	if tile.item then
 		lastItem = tile.item
-		session.sound.coin[love.math.random(1, 3)]:play()
-		if tile.triggersGranny > 80 and not tile.isDeadly then
+		session.sound.coin[love.math.random(1, 5)]:play()
+		if tile.triggersGranny > 85 and not tile.isDeadly then
 			session.grandmaNum = love.math.random(2, 5)
 			session.grandmaWords = getRandomGrannySpeech()
 			session.grandma = 180
