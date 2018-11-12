@@ -1,6 +1,7 @@
-# seattleindiesgamejam2018
 
+# Raking It In
 
+_This game was made by [sophia](https://twitter.com/yokopuffs) and [jocelyn](https://twitter.com/jocelyngee) for the 2018 Seattle Indies Game Jam._
 
 You’re just an ordinary kid lookin' to buy yourself a new super awesome bike. It's $500, so what do you do? You do your chores and you sell lemonade and you go to your neighbors' houses to do some yard work and raise money.
 
@@ -13,7 +14,11 @@ Sounds easy enough, but you never know what you’ll find in an old lady’s bac
 - Buy extra lives from the shop when needed by pressing the right arrow when standing near it
 - Keep your eye on the prize!
 
-## All sounds were downloaded from freesound.org
+## Download
+
+You'll need to install [LÖVE](https://love2d.org) to play this game, then download it from [itch.io](https://witchwarlock.itch.io/raking-it-in).
+
+## All sounds were downloaded from [freesound.org](https://freesound.org)
 - [06684 children hooray joy shout.WAV](https://freesound.org/people/Robinhood76/sounds/346814/) | Robinhood76 | CC BY-NC 3.0
 - [You win the fight](https://freesound.org/people/Tritus/sounds/251419/) | Tritus | CC BY 3.0
 - [jingling_coins.wav](https://freesound.org/people/Peacewaves/sounds/320828/) | Peacewaves | CC BY 3.0 
