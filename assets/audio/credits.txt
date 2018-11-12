@@ -1,0 +1,14 @@
+All sounds were downloaded from freesound.org
+
+NAME                                  | AUTHOR            | LICENSE       | Link
+--------------------------------------|-------------------|---------------|--------------
+06684 children hooray joy shout.WAV   | Robinhood76       | CC BY-NC 3.0  | https://freesound.org/people/Robinhood76/sounds/346814/
+You win the fight                     | Tritus            | CC BY 3.0     | https://freesound.org/people/Tritus/sounds/251419/
+jingling_coins.wav                    | Peacewaves        | CC BY 3.0     | https://freesound.org/people/Peacewaves/sounds/320828/
+bubble (4).wav                        | Glaneur de sons   | CC BY 3.0     | https://freesound.org/people/Glaneur%20de%20sons/sounds/104943/
+evil laugh-19.wav                     | Nanakisan         | CC BY 3.0     | https://freesound.org/people/Nanakisan/sounds/132816/
+Cackle                                | RavenBlueFeather  | CC0 1.0       | https://freesound.org/people/RavenBlueFeather/sounds/385854/
+Door, Front, Closing, A.wav           | InspectorJ        | CC BY 3.0     | https://freesound.org/people/InspectorJ/sounds/431118/
+Door, Front, Opening, A.wav           | InspectorJ        | CC BY 3.0     | https://freesound.org/people/InspectorJ/sounds/431117/
+walking in leaves.flac                | tim.kahn          | CC BY 3.0     | https://freesound.org/people/tim.kahn/sounds/27977/
+Op_Cls_1.WAV                          | kjackson          | CC BY-NC 3.0  | https://freesound.org/people/kjackson/sounds/32629/
