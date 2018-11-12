@@ -20,23 +20,7 @@ function love.load()
 	font = assets.fonts.krona(15)
 	love.graphics.setFont(font)
 	startMenu = false
-	sound = {
-		deposit = love.audio.newSource('assets/audio/deposit.ogg', 'static'),
-		coin = {
-			[1] = love.audio.newSource('assets/audio/coin1.ogg', 'static'),
-			[2] = love.audio.newSource('assets/audio/coin2.ogg', 'static'),
-			[3] = love.audio.newSource('assets/audio/coin3.ogg', 'static'),
-			[4] = love.audio.newSource('assets/audio/coin4.ogg', 'static'),
-			[5] = love.audio.newSource('assets/audio/coin5.ogg', 'static')
-		},
-		-- dead = love.audio.newSource('static'),
-		storeOpen = love.audio.newSource('assets/audio/storeOpen.ogg', 'static'),
-		storeClose = love.audio.newSource('assets/audio/storeClose.ogg', 'static'),
-		heart = love.audio.newSource('assets/audio/heart.ogg', 'static'),
-		granny = love.audio.newSource('assets/audio/cackle.ogg', 'static'),
-		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static'),
-		win = love.audio.newSource('assets/audio/win.ogg', 'static')
-	}
+	sound = loadSounds()
 	sound.win:setVolume(0.8)
 	startSession()
 end
@@ -259,4 +243,23 @@ end
 
 function getKOScreen()
 	return session.lives == 0 and assets.images.gameover or assets.images.dead
+end
+
+function loadSounds()
+	return {
+		deposit = love.audio.newSource('assets/audio/deposit.ogg', 'static'),
+		coin = {
+			[1] = love.audio.newSource('assets/audio/coin1.ogg', 'static'),
+			[2] = love.audio.newSource('assets/audio/coin2.ogg', 'static'),
+			[3] = love.audio.newSource('assets/audio/coin3.ogg', 'static'),
+			[4] = love.audio.newSource('assets/audio/coin4.ogg', 'static'),
+			[5] = love.audio.newSource('assets/audio/coin5.ogg', 'static')
+		},
+		storeOpen = love.audio.newSource('assets/audio/storeOpen.ogg', 'static'),
+		storeClose = love.audio.newSource('assets/audio/storeClose.ogg', 'static'),
+		heart = love.audio.newSource('assets/audio/heart.ogg', 'static'),
+		granny = love.audio.newSource('assets/audio/cackle.ogg', 'static'),
+		gameover = love.audio.newSource('assets/audio/gameover.ogg', 'static'),
+		win = love.audio.newSource('assets/audio/win.ogg', 'static')
+	}
 end
