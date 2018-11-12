@@ -5,7 +5,6 @@ local grid = require 'grid'
 local flux = require 'flux'
 local major, minor = love.getVersion()
 local newVersion = minor ~= 10
-print(minor, newVersion)
 local cargo = newVersion and 'cargo11' or 'cargo10'
 
 io.stdout:setvbuf('no')
@@ -38,7 +37,7 @@ function love.update(dt)
 	if tile.item then
 		lastItem = tile.item
 		session.sound.coin[love.math.random(1, 5)]:play()
-		if tile.triggersGranny > 85 and not tile.isDeadly then
+		if tile.triggersGranny > 90 and not tile.isDeadly then
 			session.grandmaNum = love.math.random(2, 5)
 			session.grandmaWords = getRandomGrannySpeech()
 			session.grandmaPos = 400

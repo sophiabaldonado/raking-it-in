@@ -7,7 +7,7 @@ function grid:load(size)
 	self.tileSize = 50
 
 	self:createTiles()
-	
+
 	self.width = math.sqrt(#self.tiles)
 	self.height = self.width
 	self:setTileCoords()
@@ -71,13 +71,13 @@ end
 
 function grid:pickSpecials()
 	local highSpecials = {}
-	while #highSpecials < 11 do
+	while #highSpecials < 10 do
 		table.insert(highSpecials, love.math.random(1, self.size / 2))
 	end
 	for _, tile in ipairs(highSpecials) do
 		self.tiles[tile]:setRandomHighValueItem()
 	end
-	
+
 	local lowSpecials = {}
 	while #lowSpecials < 36 do
 		table.insert(lowSpecials, love.math.random(self.size / 4, self.size - 1))
