@@ -111,8 +111,8 @@ function love.keypressed(key)
 				if player.pos == #grid.tiles then
 					if key == 'down' then
 						session.piggybank:deposit(player.pocketmoney)
+						if player.pocketmoney > 0 then session.sound.deposit:play() end
 						player.pocketmoney = 0
-						session.sound.deposit:play()
 					end
 					if key == 'right' then
 						store.active = true
@@ -172,9 +172,9 @@ end
 
 function drawHud()
 	love.graphics.setFont(bigfont)
-	love.graphics.print('$'..string.format("%.2f", player.pocketmoney), 10, 60)
+	love.graphics.print('$'..string.format('%.2f', player.pocketmoney), 10, 60)
 	love.graphics.setFont(font)
-	love.graphics.print('$'..string.format("%.2f",session.piggybank.total), session.piggybank.x + session.piggybank.width, session.piggybank.y + 20)
+	love.graphics.print('$'..string.format('%.2f', session.piggybank.total), session.piggybank.x + session.piggybank.width, session.piggybank.y + 20)
 
 	for i = 1, session.lives do
 		love.graphics.draw(assets.images.heart, (40 * i) - 30, 10, 0, .75)
@@ -194,13 +194,15 @@ function drawHud()
 		local color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
 		local image = assets.images.pause
 		if player.dead then
-			textY = 280
+			textY = 295
 			color = newVersion and { .72, .01, 0, 1 } or { 182, 11, 11, 255 }
 			image = getKOScreen()
-			text = '(press R to restart)'
+			text = 'You dropped $'..string.format('%.2f', player.pocketmoney)..' (press R to respawn)'
 			if session.lives == 0 then
 				session.grandmaNum = 6
-				session.grandma = 20000
+				session.grandmaTimer = 20000
+				session.grandma = true
+				text = 'You still need $'..string.format('%.2f', store.prices.bike - (player.pocketmoney + session.piggybank.total))..' (press R to replay)'
 			end
 		elseif session.narrative then
 			text = session.narrative.text
@@ -224,8 +226,10 @@ function drawWin()
 		love.graphics.draw(image, x, 140)
 		local color = newVersion and { .61, .12, .90, 1 } or { 156, 30, 230, 255 }
 		love.graphics.setColor(color)
-		love.graphics.print('YOU ESCAPED!', x + 180, 230)
-		love.graphics.print('(press R to restart)', x + 155, 250)
+		love.graphics.setFont(bigfont)
+		love.graphics.print('YOU ESCAPED!', x + 125, 220)
+		love.graphics.setFont(font)
+		love.graphics.print('(press R to replay)', x + 155, 250)
 		color = newVersion and { 1, 1, 1, 1 } or { 255, 255, 255, 255 }
 		love.graphics.setColor(color)
 	end
