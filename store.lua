@@ -39,7 +39,7 @@ function store:keypressed(key, session)
 		session.win = true
 		session.sound.win:play()
 		session.piggybank.total = session.piggybank.total - self.prices.bike
-	elseif key == 'escape' or key == 'left' then
+	elseif key == 'escape' or key == 'left' or key == 'a' then
 		session.sound.storeClose:play()
 		self.active = false
 	end

@@ -25,25 +25,25 @@ function player:update(dt)
 end
 
 function player:keypressed(key)
-	if key == 'up' then
+	if key == 'up' or key == 'w' then
 		if self.pos > grid.width then
 			self.dir = math.pi
 			self.pos = self.pos - grid.width
 			self.step[love.math.random(1, 6)]:play()
 		end
-	elseif key == 'down' then
+	elseif key == 'down' or key == 's' then
 		if self.pos <= #grid.tiles - grid.width then
 			self.dir = 0
 			self.pos = self.pos + grid.width
 			self.step[love.math.random(1, 6)]:play()
 		end
-	elseif key == 'left' then
+	elseif key == 'left' or key == 'a' then
 		if self.pos % grid.width ~= 1 then
 			self.dir = math.pi / 2
 			self.pos = self.pos - 1
 			self.step[love.math.random(1, 6)]:play()
 		end
-	elseif key == 'right' then
+	elseif key == 'right' or key =='d' then
 		if self.pos % grid.width ~= 0 then
 			self.dir = math.pi + math.pi / 2
 			self.pos = self.pos + 1

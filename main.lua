@@ -110,12 +110,12 @@ function love.keypressed(key)
 
 			if not session.paused then
 				if player.pos == #grid.tiles then
-					if key == 'down' then
+					if key == 'down' or key == 's' then
 						session.piggybank:deposit(player.pocketmoney)
 						if player.pocketmoney > 0 then session.sound.deposit:play() end
 						player.pocketmoney = 0
 					end
-					if key == 'right' then
+					if key == 'right' or key == 'd' then
 						store.active = true
 						session.sound.storeOpen:play()
 					end
