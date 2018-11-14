@@ -13,7 +13,7 @@ function grid:load(size)
 	self:setTileCoords()
 
 	self:pickSpecials()
-	self:pickDeadlies(5)
+	self:pickDeadlies(4)
 end
 
 function grid:update(dt)
