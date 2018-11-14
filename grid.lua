@@ -13,7 +13,8 @@ function grid:load(size)
 	self:setTileCoords()
 
 	self:pickSpecials()
-	self:pickDeadlies(4)
+	self:pickDeadlies(3)
+	self:setTriggers()
 end
 
 function grid:update(dt)
@@ -56,6 +57,19 @@ function grid:getTile(pos)
 	return self.tiles[pos]
 end
 
+function grid:setTriggers()
+	for _, trap in ipairs(self.traps) do
+		for i, tile in ipairs(self.tiles) do
+			if not tile.triggersGranny then
+			 	tile.triggersGranny = i - 1 == trap
+					or i + 1 == trap
+					or i - self.width == trap
+					or i + self.width == trap
+			end
+		end
+	end
+end
+
 function grid:pickDeadlies(amount)
 	local deadlies = {}
 	while #deadlies < amount do
@@ -64,9 +78,10 @@ function grid:pickDeadlies(amount)
 			table.insert(deadlies, index)
 		end
 	end
-	for _, tile in ipairs(deadlies) do
-		self.tiles[tile]:setDeadly()
-	end
+
+	for _, tile in ipairs(deadlies) do self.tiles[tile]:setDeadly()	end
+
+	self.traps = deadlies
 end
 
 function grid:pickSpecials()

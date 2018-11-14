@@ -35,9 +35,10 @@ function love.update(dt)
 	end
 	local tile = session.currentTile
 	if tile.item then
-		lastItem = tile.item
+		session.lastItem = tile.item
 		session.sound.coin[love.math.random(1, 5)]:play()
-		if tile.triggersGranny > 90 and not tile.isDeadly then
+		if tile.triggersGranny then
+			if session.grandmaTween then session.grandmaTween:stop() end
 			session.grandmaNum = love.math.random(2, 5)
 			session.grandmaWords = getRandomGrannySpeech()
 			session.grandmaPos = 400
@@ -55,7 +56,7 @@ end
 
 function timeHer()
 	timing = true
-	flux.to(session, 40, { grandmaPos = 100 })
+	session.grandmaTween = flux.to(session, 40, { grandmaPos = 100 })
 		:after(session, session.grandmaTimer, { grandmaPos = 100 })
 		:after(session, 50, { grandmaPos = 600 })
 		:oncomplete(function()
@@ -180,8 +181,8 @@ function drawHud()
 		love.graphics.draw(assets.images.heart, (40 * i) - 30, 10, 0, .75)
 	end
 
-	if lastItem then
-		local desc = 'You found a'..lastItem.name..' worth $'..lastItem.value..'!'
+	if session.lastItem then
+		local desc = 'You found a'..session.lastItem.name..' worth $'..session.lastItem.value..'!'
 		love.graphics.print(desc, grid.tiles[1].x + grid.tileSize / 2, 18)
 	end
 
